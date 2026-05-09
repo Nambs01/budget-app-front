@@ -8,8 +8,32 @@
 
 * {
     font-family: 'Google Sans', sans-serif;
+
+    --background-color: #f8fafc;
+
+    --primary-color: #2563eb;
+
+    --label-color: #21252d;
 }
 
 body {
     margin: 0;
+    background-color: var(--background-color);
+}
+
+.form {
+    padding: 1rem 0;
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+    }
+    label {
+        display: block;
+        font-weight: 600;
+        text-align: left;
+        color: var(--label-color);
+        font-size: 0.875rem;
+    }
 }

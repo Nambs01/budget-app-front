@@ -1,10 +1,28 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '@/views/HomeView.vue'
-import LoginView from '@/views/LoginView.vue'
+import AuthLayout from '@/views/auth/AuthLayout.vue'
+import LoginView from '@/views/auth/LoginView.vue'
+import RegisterView from '@/views/auth/RegisterView.vue'
 
 const routes = [
     { path: '/', name: 'Home', component: HomeView, meta: { requiresAuth: true } },
-    { path: '/login', name: 'Login', component: LoginView },
+    {
+        path: '/auth',
+        component: AuthLayout,
+        redirect: '/auth/login',
+        children: [
+            {
+                path: 'login',
+                name: 'Login',
+                component: LoginView,
+            },
+            {
+                path: 'register',
+                name: 'Register',
+                component: RegisterView,
+            },
+        ],
+    },
 ]
 
 const router = createRouter({
@@ -14,7 +32,7 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
     if (to.meta.requiresAuth) {
-        next('/login')
+        next('/auth/login')
     } else {
         next()
     }
