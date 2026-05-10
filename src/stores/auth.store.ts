@@ -1,10 +1,13 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
-import type { User } from '@/interfaces/user.interface'
+import type { User, UserPayload } from '@/interfaces/user.interface'
 import { AuthService } from '@/services/auth.service'
 import type { Credential } from '@/interfaces/credential.interface'
+import { useRouter } from 'vue-router'
 
 export const useAuthStore = defineStore('auth', () => {
+    const router = useRouter()
+
     const authService = AuthService.getInstance()
     const currentUser = ref<User>()
 
@@ -32,14 +35,16 @@ export const useAuthStore = defineStore('auth', () => {
         try {
             const user = await authService.fetchCurrentUser()
             currentUser.value = user
+            router.push('/')
         } catch (error) {
             console.error('Fetching current user failed:', error)
         }
     }
 
-    const register = async (name: string, email: string, password: string) => {
+    const register = async (data: UserPayload) => {
         try {
-            await authService.register(name, email, password)
+            await authService.register(data)
+            await fetchCurrentUser()
         } catch (error) {
             console.error('Registration failed:', error)
         }

@@ -1,6 +1,6 @@
 import axiosInstance from '@/api'
 import type { Credential } from '@/interfaces/credential.interface'
-import type { User } from '@/interfaces/user.interface'
+import type { User, UserPayload } from '@/interfaces/user.interface'
 
 export class AuthService {
     private static instance: AuthService
@@ -29,7 +29,8 @@ export class AuthService {
         return apiResponse.data
     }
 
-    public async register(name: string, email: string, password: string): Promise<void> {
-        // Implement registration logic here
+    public async register(payload: UserPayload): Promise<void> {
+        const apiResponse = await axiosInstance.post('/register', payload)
+        return apiResponse.data
     }
 }
