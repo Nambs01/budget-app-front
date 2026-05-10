@@ -1,9 +1,7 @@
+<script setup lang="ts">
+import AuthForm from '@/components/AuthForm.vue'
+</script>
+
 <template>
-    <div class="register">
-        <div class="container">
-            <div class="header">
-                <h1>Register</h1>
-            </div>
-        </div>
-    </div>
+    <AuthForm mode="register" />
 </template>

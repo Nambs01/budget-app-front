@@ -12,8 +12,6 @@
     --background-color: #f8fafc;
 
     --primary-color: #2563eb;
-
-    --label-color: #21252d;
 }
 
 body {
@@ -31,9 +29,7 @@ body {
     }
     label {
         display: block;
-        font-weight: 600;
         text-align: left;
-        color: var(--label-color);
-        font-size: 0.875rem;
+        font-size: 0.9rem;
     }
 }
