@@ -7,6 +7,8 @@ import vueDevTools from 'vite-plugin-vue-devtools'
 import Components from 'unplugin-vue-components/vite'
 import { PrimeVueResolver } from '@primevue/auto-import-resolver'
 
+import fs from 'fs'
+
 // https://vite.dev/config/
 export default defineConfig({
     plugins: [
@@ -19,6 +21,15 @@ export default defineConfig({
     resolve: {
         alias: {
             '@': fileURLToPath(new URL('./src', import.meta.url)),
+        },
+    },
+    server: {
+        host: '0.0.0.0',
+        port: 5173,
+        allowedHosts: ['www.budget-manager.mg'],
+        https: {
+            cert: fs.readFileSync('./certs/cert.pem'),
+            key: fs.readFileSync('./certs/key.pem'),
         },
     },
 })
