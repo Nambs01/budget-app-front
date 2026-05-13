@@ -9,6 +9,8 @@ import Aura from '@primeuix/themes/aura'
 import { definePreset } from '@primevue/themes'
 
 import './assets/base.scss'
+import 'primeicons/primeicons.css'
+import '@fortawesome/fontawesome-free/css/all.min.css'
 
 const MyPreset = definePreset(Aura, {
     semantic: {

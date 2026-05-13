@@ -2,6 +2,7 @@
     <div class="auth-layout">
         <div class="container">
             <div class="header">
+                <Logo :size="2" />
                 <h1>Bienvenue sur Budget Manager</h1>
                 <p>Connectez-vous ou inscrivez-vous pour continuer</p>
             </div>
@@ -10,7 +11,9 @@
     </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import Logo from '@/components/Logo.vue'
+</script>
 
 <style scoped lang="scss">
 .auth-layout {
@@ -28,6 +31,9 @@
         text-align: center;
 
         .header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             h1 {
                 font-size: 2rem;
             }

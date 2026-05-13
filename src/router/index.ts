@@ -4,9 +4,41 @@ import AuthLayout from '@/views/auth/AuthLayout.vue'
 import LoginView from '@/views/auth/LoginView.vue'
 import RegisterView from '@/views/auth/RegisterView.vue'
 import { useAuthStore } from '@/stores/auth.store'
+import DashboardView from '@/views/logged-space/DashboardView.vue'
+import BudgetView from '@/views/logged-space/BudgetView.vue'
+import ExpenseView from '@/views/logged-space/ExpenseView.vue'
+import IncomeView from '@/views/logged-space/IncomeView.vue'
 
 const routes = [
-    { path: '/', name: 'Home', component: HomeView, meta: { requiresAuth: true } },
+    {
+        path: '/',
+        name: 'Home',
+        component: HomeView,
+        meta: { requiresAuth: true },
+        redirect: '/dashboard',
+        children: [
+            {
+                path: '/dashboard',
+                name: 'Dashboard',
+                component: DashboardView,
+            },
+            {
+                path: '/budget',
+                name: 'Budget',
+                component: BudgetView,
+            },
+            {
+                path: '/expense',
+                name: 'Expense',
+                component: ExpenseView,
+            },
+            {
+                path: '/income',
+                name: 'Income',
+                component: IncomeView,
+            },
+        ],
+    },
     {
         path: '/auth',
         component: AuthLayout,

@@ -49,5 +49,5 @@ export const useAuthStore = defineStore('auth', () => {
             console.error('Registration failed:', error)
         }
     }
-    return { currentUser, isAuthenticated, login, logout, register }
+    return { currentUser, isAuthenticated, login, logout, register, fetchCurrentUser }
 })
