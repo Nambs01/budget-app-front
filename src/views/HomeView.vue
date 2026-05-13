@@ -85,6 +85,7 @@ watch(
     position: relative;
     .sticky {
         background-color: #fff;
+        box-shadow: 0px 1px 28px 5px rgba(0, 0, 0, 0.08);
         position: sticky;
         top: 0;
         & > div {
