@@ -166,7 +166,7 @@ const initialValues = ref(
 
 // --- Soumission ---
 const onFormSubmit = async (event: FormSubmitEvent) => {
-    if (!event.valid || !isLoading.value) return
+    if (!event.valid || isLoading.value) return
 
     isLoading.value = true
     try {
