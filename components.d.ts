@@ -11,10 +11,25 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    AddIncome: typeof import('./src/components/income/AddIncome.vue')['default']
     AuthForm: typeof import('./src/components/AuthForm.vue')['default']
+    BudgetCategory: typeof import('./src/components/budget/BudgetCategory.vue')['default']
+    BudgetGlobal: typeof import('./src/components/budget/BudgetGlobal.vue')['default']
+    BudgetGlobale: typeof import('./src/components/budget/BudgetGlobale.vue')['default']
+    BudgetNone: typeof import('./src/components/budget/BudgetNone.vue')['default']
     Button: typeof import('primevue/button')['default']
+    ButtonCustomer: typeof import('./src/components/ButtonCustomer.vue')['default']
+    DatePicker: typeof import('primevue/datepicker')['default']
+    DynamicDialog: typeof import('primevue/dynamicdialog')['default']
+    Form: typeof import('@primevue/forms/form')['default']
+    HeaderPage: typeof import('./src/components/HeaderPage.vue')['default']
+    IncomeForm: typeof import('./src/components/income/IncomeForm.vue')['default']
+    InputNumber: typeof import('primevue/inputnumber')['default']
+    InputText: typeof import('primevue/inputtext')['default']
     Logo: typeof import('./src/components/Logo.vue')['default']
+    Message: typeof import('primevue/message')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    Select: typeof import('primevue/select')['default']
   }
 }

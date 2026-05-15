@@ -89,7 +89,7 @@ watch(
         position: sticky;
         top: 0;
         & > div {
-            padding: 1rem 10%;
+            padding: 1.5rem 10%;
         }
         .header {
             display: flex;
@@ -114,7 +114,7 @@ watch(
                         color: var(--primary-color);
                     }
                     .subtitle {
-                        color: gray;
+                        color: var(--subtitle-color);
                     }
                 }
             }
@@ -134,10 +134,11 @@ watch(
                 font-size: 0.9rem;
                 border-radius: 8px;
                 text-decoration: none;
+                color: #000;
                 transition: background-color 0.3s ease;
 
                 &:hover {
-                    background-color: #2564eb24;
+                    background-color: var(--primary-color-background);
                     color: var(--primary-color);
                 }
 
@@ -150,7 +151,7 @@ watch(
     }
 
     .body {
-        padding: 1rem 10%;
+        padding: 2rem 10%;
     }
 }
 </style>
