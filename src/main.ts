@@ -7,6 +7,7 @@ import router from './router'
 import PrimeVue from 'primevue/config'
 import Aura from '@primeuix/themes/aura'
 import { definePreset } from '@primevue/themes'
+import DialogService from 'primevue/dialogservice'
 
 import './assets/base.scss'
 import 'primeicons/primeicons.css'
@@ -41,6 +42,17 @@ app.use(PrimeVue, {
             darkModeSelector: 'none',
         },
     },
+    pt: {
+        dialog: {
+            mask: {
+                style: 'background-color: rgba(0, 0, 0, 0.5);',
+            },
+            root: {
+                style: { width: '25vw' },
+            },
+        },
+    },
 })
+app.use(DialogService)
 
 app.mount('#app')
