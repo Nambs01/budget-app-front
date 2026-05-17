@@ -10,6 +10,8 @@ onMounted(() => {
 <template>
     <div class="app">
         <router-view></router-view>
+        <DynamicDialog />
+        <Toast />
     </div>
 </template>
 

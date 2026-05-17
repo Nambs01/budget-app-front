@@ -8,6 +8,7 @@ import PrimeVue from 'primevue/config'
 import Aura from '@primeuix/themes/aura'
 import { definePreset } from '@primevue/themes'
 import DialogService from 'primevue/dialogservice'
+import ToastService from 'primevue/toastservice'
 
 import './assets/base.scss'
 import 'primeicons/primeicons.css'
@@ -54,5 +55,6 @@ app.use(PrimeVue, {
     },
 })
 app.use(DialogService)
+app.use(ToastService)
 
 app.mount('#app')
