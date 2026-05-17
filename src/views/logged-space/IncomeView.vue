@@ -10,7 +10,6 @@
                 handleClick: showAddIncome,
             }"
         />
-        <DynamicDialog />
     </div>
 </template>
 
@@ -21,13 +20,9 @@ import { useDialog } from 'primevue'
 const dialog = useDialog()
 
 const showAddIncome = () => {
-    console.log('Add income')
-    const dialogRef = dialog.open(IncomeForm, {
+    dialog.open(IncomeForm, {
         props: {
             header: 'Ajouter un revenu',
-            style: {
-                // width: '25vw',
-            },
         },
     })
 }

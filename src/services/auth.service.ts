@@ -24,8 +24,7 @@ export class AuthService {
     }
 
     public async fetchCurrentUser(): Promise<User> {
-        const apiResponse = await axiosInstance.get('/auth/user')
-        console.log(apiResponse.data)
+        const apiResponse = await axiosInstance.get<User>('/auth/user')
         return apiResponse.data
     }
 
