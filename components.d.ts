@@ -19,6 +19,10 @@ declare module 'vue' {
     BudgetNone: typeof import('./src/components/budget/BudgetNone.vue')['default']
     Button: typeof import('primevue/button')['default']
     ButtonCustomer: typeof import('./src/components/ButtonCustomer.vue')['default']
+    Card: typeof import('primevue/card')['default']
+    Column: typeof import('primevue/column')['default']
+    CustomDataTable: typeof import('./src/components/CustomDataTable.vue')['default']
+    DataTable: typeof import('primevue/datatable')['default']
     DatePicker: typeof import('primevue/datepicker')['default']
     DynamicDialog: typeof import('primevue/dynamicdialog')['default']
     Form: typeof import('@primevue/forms/form')['default']
@@ -31,6 +35,8 @@ declare module 'vue' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Select: typeof import('primevue/select')['default']
+    Table: typeof import('./src/components/Table.vue')['default']
+    Tag: typeof import('primevue/tag')['default']
     Toast: typeof import('primevue/toast')['default']
   }
 }
