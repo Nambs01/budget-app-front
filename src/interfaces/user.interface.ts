@@ -4,6 +4,7 @@ export interface User {
     id: number
     name: string
     email: string
+    amount: number
     createdAt: string
     updatedAt: string
 }

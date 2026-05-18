@@ -13,3 +13,8 @@ export interface Income extends IncomeCreate {
     createdAt: string
     updatedAt: string
 }
+
+export interface IncomeApiResponse {
+    income: Income
+    amountUser: number
+}

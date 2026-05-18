@@ -1,5 +1,5 @@
 import axiosInstance from '@/api'
-import type { Income, IncomeCreate } from '@/interfaces/income.interface'
+import type { Income, IncomeApiResponse, IncomeCreate } from '@/interfaces/income.interface'
 
 export class IncomeService {
     private static instance: IncomeService
@@ -14,7 +14,12 @@ export class IncomeService {
     }
 
     public async create(payload: IncomeCreate) {
-        const response = await axiosInstance.post<Income>('/incomes', payload)
+        const response = await axiosInstance.post<IncomeApiResponse>('/incomes', payload)
+        return response.data
+    }
+
+    public async fetchIncomeList() {
+        const response = await axiosInstance.get<Income[]>('/incomes')
         return response.data
     }
 }
