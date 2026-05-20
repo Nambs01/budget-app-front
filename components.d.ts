@@ -14,6 +14,7 @@ declare module 'vue' {
     AddIncome: typeof import('./src/components/income/AddIncome.vue')['default']
     AuthForm: typeof import('./src/components/AuthForm.vue')['default']
     BudgetCategory: typeof import('./src/components/budget/BudgetCategory.vue')['default']
+    BudgetForm: typeof import('./src/components/budget/BudgetForm.vue')['default']
     BudgetGlobal: typeof import('./src/components/budget/BudgetGlobal.vue')['default']
     BudgetGlobale: typeof import('./src/components/budget/BudgetGlobale.vue')['default']
     BudgetNone: typeof import('./src/components/budget/BudgetNone.vue')['default']
@@ -37,6 +38,7 @@ declare module 'vue' {
     Select: typeof import('primevue/select')['default']
     Table: typeof import('./src/components/Table.vue')['default']
     Tag: typeof import('primevue/tag')['default']
+    Textarea: typeof import('primevue/textarea')['default']
     Toast: typeof import('primevue/toast')['default']
   }
 }

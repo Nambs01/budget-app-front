@@ -8,7 +8,7 @@
             :button="{
                 icon: 'pi pi-cog',
                 label: 'Configurer le budget',
-                handleClick: () => console.log('click'),
+                handleClick: showConfigBudget,
             }"
         />
         <div class="container">
@@ -16,3 +16,10 @@
         </div>
     </div>
 </template>
+
+<script setup lang="ts">
+import { useDialogService } from '@/composables/useDialogService'
+
+const dialogService = useDialogService()
+const showConfigBudget = () => dialogService.openBudgetForm()
+</script>

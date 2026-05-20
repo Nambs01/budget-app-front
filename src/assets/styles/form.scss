@@ -1,0 +1,322 @@
+/* ═══════════════════════════════════════════════════════
+   Variables
+═══════════════════════════════════════════════════════ */
+:root {
+    --form-gap: 0.5rem;
+    --form-group-mb: 1rem;
+    --form-label-size: 0.875rem;
+    --form-error-size: 0.775rem;
+    --form-radius: 8px;
+    --form-border: #e2e8f0;
+    --form-border-focus: var(--primary-color);
+    --form-shadow-focus: 0 0 0 3px var(--primary-color-background);
+}
+
+/* ═══════════════════════════════════════════════════════
+   Wrapper
+═══════════════════════════════════════════════════════ */
+.form {
+    padding: 1rem 0;
+}
+
+/* ═══════════════════════════════════════════════════════
+   Form group
+═══════════════════════════════════════════════════════ */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--form-gap);
+    margin-bottom: var(--form-group-mb);
+}
+
+.form-group:last-child {
+    margin-bottom: 0;
+}
+
+/* ═══════════════════════════════════════════════════════
+   Label
+═══════════════════════════════════════════════════════ */
+.form label,
+.form-group label {
+    display: block;
+    text-align: left;
+    font-size: var(--form-label-size);
+    font-weight: 500;
+    color: #374151;
+}
+
+.form label .unit,
+.form-group label .unit {
+    font-weight: 400;
+    font-size: 0.8rem;
+    color: var(--subtitle-color);
+    margin-left: 0.2rem;
+}
+
+.form label .optional,
+.form-group label .optional {
+    margin-left: 0.4rem;
+    font-size: 0.72rem;
+    font-weight: 400;
+    color: var(--subtitle-color);
+    background: #f1f5f9;
+    border-radius: 99px;
+    padding: 0.1rem 0.5rem;
+}
+
+/* ═══════════════════════════════════════════════════════
+   Error message
+═══════════════════════════════════════════════════════ */
+.form-error {
+    font-size: var(--form-error-size);
+    color: #ef4444;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.form-error::before {
+    content: '●';
+    font-size: 0.5rem;
+}
+
+.form .p-message.p-message-error {
+    background: transparent;
+    border: none;
+    padding: 0;
+}
+
+/* ═══════════════════════════════════════════════════════
+   Grid rows
+═══════════════════════════════════════════════════════ */
+.form-row {
+    display: grid;
+    gap: 0 1rem;
+}
+
+.form-row.cols-2 {
+    grid-template-columns: 1fr 1fr;
+}
+.form-row.cols-3 {
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+@media (max-width: 500px) {
+    .form-row.cols-2,
+    .form-row.cols-3 {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ═══════════════════════════════════════════════════════
+   PrimeVue inputs — override focus avec primary color
+═══════════════════════════════════════════════════════ */
+.form .p-inputtext:focus,
+.form .p-inputnumber-input:focus,
+.form .p-textarea:focus {
+    border-color: var(--form-border-focus) !important;
+    box-shadow: var(--form-shadow-focus) !important;
+    outline: none;
+}
+
+.form .p-select:not(.p-disabled).p-focus,
+.form .p-datepicker:not(.p-disabled).p-focus {
+    border-color: var(--form-border-focus) !important;
+    box-shadow: var(--form-shadow-focus) !important;
+}
+
+/* Invalid state */
+.form .p-inputtext.p-invalid,
+.form .p-inputnumber.p-invalid .p-inputnumber-input,
+.form .p-select.p-invalid,
+.form .p-datepicker.p-invalid {
+    border-color: #ef4444 !important;
+}
+
+.form .p-inputtext.p-invalid:focus,
+.form .p-inputnumber.p-invalid .p-inputnumber-input:focus {
+    box-shadow: 0 0 0 3px #ef444420 !important;
+}
+
+/* w-full helper */
+.form .w-full,
+.form-group .w-full {
+    width: 100%;
+}
+
+/* ═══════════════════════════════════════════════════════
+   Boutons — primary color override
+═══════════════════════════════════════════════════════ */
+.form .p-button:not(.p-button-text):not(.p-button-outlined):not([data-pc-severity]) {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.form .p-button:not(.p-button-text):not(.p-button-outlined):not([data-pc-severity]):hover {
+    background: color-mix(in srgb, var(--primary-color) 85%, black);
+    border-color: color-mix(in srgb, var(--primary-color) 85%, black);
+}
+
+.form .p-button-outlined {
+    color: var(--primary-color) !important;
+    border-color: var(--primary-color) !important;
+}
+
+.form .p-button-outlined:hover {
+    background: var(--primary-color-background) !important;
+}
+
+/* ═══════════════════════════════════════════════════════
+   Footer actions
+═══════════════════════════════════════════════════════ */
+.form-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    padding-top: 0.75rem;
+    margin-top: 0.25rem;
+    border-top: 1px solid var(--form-border);
+}
+
+/* ═══════════════════════════════════════════════════════
+   Section (ex: répartition budget)
+═══════════════════════════════════════════════════════ */
+.form-section {
+    background: var(--primary-color-background);
+    border: 1px solid color-mix(in srgb, var(--primary-color) 20%, transparent);
+    border-radius: 10px;
+    padding: 1rem;
+    margin-bottom: var(--form-group-mb);
+}
+
+.form-section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+}
+
+.form-section-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #1e293b;
+}
+
+.form-section-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.35rem;
+    height: 1.35rem;
+    border-radius: 50%;
+    background: var(--primary-color);
+    color: #fff;
+    font-size: 0.68rem;
+    font-weight: 700;
+}
+
+/* ═══════════════════════════════════════════════════════
+   Dynamic list rows  (ex: options budget)
+═══════════════════════════════════════════════════════ */
+.form-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.form-list-row {
+    display: flex;
+    align-items: flex-end;
+    gap: 0.6rem;
+    background: #fff;
+    border: 1px solid var(--form-border);
+    border-radius: var(--form-radius);
+    padding: 0.75rem;
+}
+
+.form-list-index {
+    width: 1.4rem;
+    height: 1.4rem;
+    border-radius: 50%;
+    background: var(--primary-color-background);
+    color: var(--primary-color);
+    font-size: 0.7rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.form-list-fields {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.6rem;
+    flex: 1;
+}
+
+@media (max-width: 480px) {
+    .form-list-fields {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ═══════════════════════════════════════════════════════
+   Progress / allocation bar
+═══════════════════════════════════════════════════════ */
+.form-progress {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    padding-top: 0.5rem;
+}
+
+.form-progress-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.78rem;
+    color: var(--subtitle-color);
+    font-weight: 500;
+}
+
+.form-progress-info.over {
+    color: #ef4444;
+    font-weight: 700;
+}
+
+.form-progress-track {
+    height: 5px;
+    background: #e2e8f0;
+    border-radius: 99px;
+    overflow: hidden;
+}
+
+.form-progress-fill {
+    height: 100%;
+    border-radius: 99px;
+    background: var(--primary-color);
+    transition: width 0.35s ease;
+}
+
+.form-progress-fill.over {
+    background: #ef4444;
+}
+
+/* ═══════════════════════════════════════════════════════
+   Transitions list
+═══════════════════════════════════════════════════════ */
+.form-list-enter-active,
+.form-list-leave-active {
+    transition: all 0.22s ease;
+}
+.form-list-enter-from {
+    opacity: 0;
+    transform: translateY(-6px);
+}
+.form-list-leave-to {
+    opacity: 0;
+    transform: translateY(6px);
+}

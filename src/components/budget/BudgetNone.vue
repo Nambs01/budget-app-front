@@ -1,6 +1,12 @@
 <script setup lang="ts">
 import { Card } from 'primevue'
 import ButtonCustomer from '../ButtonCustomer.vue'
+import { useDialogService } from '@/composables/useDialogService'
+
+const dialogService = useDialogService()
+const showConfigBudget = () => {
+    dialogService.openBudgetForm()
+}
 </script>
 
 <template>
@@ -14,7 +20,7 @@ import ButtonCustomer from '../ButtonCustomer.vue'
                     <ButtonCustomer
                         icon="pi pi-cog"
                         label="Configurer le budget"
-                        :onClick="() => console.log('click')"
+                        :onClick="showConfigBudget"
                     />
                 </div>
             </template>
