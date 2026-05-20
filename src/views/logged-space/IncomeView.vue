@@ -7,28 +7,29 @@
             }"
             :button="{
                 label: 'Ajouter un revenu',
-                handleClick: showAddIncome,
+                handleClick: () => showIncomeForm(),
             }"
         />
         <CustomDataTable
             title="Historique des revenus"
             type="income"
-            :data="[]"
+            :data="incomeStore.listIncomes"
             :columns="columns"
+            :openForm="showIncomeForm"
         />
     </div>
 </template>
 
 <script setup lang="ts">
-import IncomeForm from '@/components/income/IncomeForm.vue'
 import { onMounted } from 'vue'
-import { useDialog } from 'primevue'
 import { useIncomeStore } from '@/stores/income.store'
 import CustomDataTable from '@/components/CustomDataTable.vue'
 import type { TableColumn } from '@/interfaces/table.inteface'
+import { useDialogService } from '@/composables/useDialogService'
+import type { Income } from '@/interfaces/income.interface'
 
 const incomeStore = useIncomeStore()
-const dialog = useDialog()
+const dialogService = useDialogService()
 
 onMounted(() => {
     incomeStore.fetchIncomeList()
@@ -63,11 +64,5 @@ const columns: TableColumn[] = [
     },
 ]
 
-const showAddIncome = () => {
-    dialog.open(IncomeForm, {
-        props: {
-            header: 'Ajouter un revenu',
-        },
-    })
-}
+const showIncomeForm = (data?: Income) => dialogService.openIncomeForm(data)
 </script>

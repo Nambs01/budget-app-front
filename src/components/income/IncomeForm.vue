@@ -1,38 +1,56 @@
 <template>
-    <div class="income-form">
-        <Form
-            class="form"
-            v-slot="$form"
-            :initialValues="initialValues"
-            :resolver="resolver"
-            @submit="onSubmit"
-        >
+    <Form
+        class="form"
+        v-slot="$form"
+        :initialValues="initialValues"
+        :resolver="resolver"
+        @submit="onSubmit"
+    >
+        <!-- Nom -->
+        <div class="form-group">
+            <label for="income-title">Nom</label>
+            <InputText
+                id="income-title"
+                name="title"
+                type="text"
+                placeholder="Exemple : Salaire mensuel"
+                fluid
+                :invalid="$form.title?.invalid"
+            />
+            <Message v-if="$form.title?.invalid" severity="error" size="small" variant="simple">
+                {{ $form.title.error?.message }}
+            </Message>
+        </div>
+
+        <!-- Source -->
+        <div class="form-group">
+            <label for="income-source">Source</label>
+            <InputText
+                id="income-source"
+                name="source"
+                type="text"
+                placeholder="Exemple : Entreprise"
+                fluid
+                :invalid="$form.source?.invalid"
+            />
+            <Message v-if="$form.source?.invalid" severity="error" size="small" variant="simple">
+                {{ $form.source.error?.message }}
+            </Message>
+        </div>
+
+        <!-- Catégorie + Montant -->
+        <div class="form-row cols-2">
             <div class="form-group">
-                <label>Nom</label>
-                <InputText name="title" type="text" placeholder="Exemple : Salaire mensuel" fluid />
-                <Message v-if="$form.title?.invalid" severity="error" size="small" variant="simple">
-                    {{ $form.title.error?.message }}
-                </Message>
-            </div>
-            <div class="form-group">
-                <label>Source</label>
-                <InputText name="source" type="text" placeholder="Exemple : Entreprise" fluid />
-                <Message
-                    v-if="$form.source?.invalid"
-                    severity="error"
-                    size="small"
-                    variant="simple"
-                >
-                    {{ $form.source.error?.message }}
-                </Message>
-            </div>
-            <div class="form-group">
-                <label>Catégorie</label>
+                <label for="income-category">Catégorie</label>
                 <Select
+                    id="income-category"
                     name="category"
                     :options="optionsCategory"
                     optionLabel="label"
                     optionValue="value"
+                    placeholder="Choisir…"
+                    fluid
+                    :invalid="$form.category?.invalid"
                 />
                 <Message
                     v-if="$form.category?.invalid"
@@ -43,17 +61,19 @@
                     {{ $form.category.error?.message }}
                 </Message>
             </div>
+
             <div class="form-group">
-                <label>Montant (Ar)</label>
+                <label for="income-amount">Montant <span class="unit">Ar</span></label>
                 <InputNumber
-                    fluid
+                    id="income-amount"
                     name="amount"
-                    inputId="amount"
+                    fluid
                     mode="currency"
                     currency="MGA"
                     locale="fr-MG"
                     :minFractionDigits="0"
                     :min="0"
+                    :invalid="$form.amount?.invalid"
                 />
                 <Message
                     v-if="$form.amount?.invalid"
@@ -64,32 +84,32 @@
                     {{ $form.amount.error?.message }}
                 </Message>
             </div>
-            <div class="form-group">
-                <label>Date</label>
-                <DatePicker
-                    v-model="date"
-                    dateFormat="dd/mm/yy"
-                    showIcon
-                    fluid
-                    iconDisplay="input"
-                    :maxDate="new Date()"
-                />
-                <Message v-if="$form.date?.invalid" severity="error" size="small" variant="simple">
-                    {{ $form.date.error?.message }}
-                </Message>
-            </div>
-            <Button
+        </div>
+
+        <!-- Date -->
+        <div class="form-group">
+            <label for="income-date">Date</label>
+            <DatePicker
+                id="income-date"
+                v-model="date"
+                dateFormat="dd/mm/yy"
+                showIcon
                 fluid
-                type="submit"
-                severity="primary"
-                :label="submitLabel"
-                :loading="isLoading"
-                :pt="{
-                    label: { style: 'font-weight: bold;' },
-                }"
+                iconDisplay="input"
+                :maxDate="new Date()"
+                :invalid="$form.date?.invalid"
             />
-        </Form>
-    </div>
+            <Message v-if="$form.date?.invalid" severity="error" size="small" variant="simple">
+                {{ $form.date.error?.message }}
+            </Message>
+        </div>
+
+        <!-- Footer -->
+        <div class="form-footer">
+            <Button type="button" label="Annuler" text severity="secondary" @click="close" />
+            <Button type="submit" label="Enregistrer" icon="pi pi-check" :loading="isLoading" />
+        </div>
+    </Form>
 </template>
 
 <script setup lang="ts">
@@ -97,7 +117,7 @@ import { z } from 'zod'
 import { IncomeCategory, IncomeCategoryLabels } from '@/enums/income.enum'
 import { zodResolver } from '@primevue/forms/resolvers/zod'
 import { computed, inject, onMounted, ref, type Ref } from 'vue'
-import type { Income, IncomeCreate } from '@/interfaces/income.interface'
+import type { Income, IncomeForm } from '@/interfaces/income.interface'
 import type { FormSubmitEvent } from '@primevue/forms'
 import { useIncomeStore } from '@/stores/income.store'
 import type { DynamicDialogInstance } from 'primevue/dynamicdialogoptions'
@@ -105,15 +125,13 @@ import type { DynamicDialogInstance } from 'primevue/dynamicdialogoptions'
 const isLoading = ref(false)
 const incomeStore = useIncomeStore()
 const dialogRef = inject<Ref<DynamicDialogInstance>>('dialogRef')
-const data = dialogRef?.value.data
+const data: Income = dialogRef?.value.data
 const updateMode = dialogRef?.value.data ? true : false
 
 const date = ref<Date>(new Date())
 onMounted(() => {
     if (data) date.value = new Date(data.date)
 })
-
-const submitLabel = updateMode ? 'Enregistrer' : 'Ajouter'
 
 const optionsCategory = Object.values(IncomeCategory).map((value) => ({
     label: IncomeCategoryLabels[value],
@@ -152,28 +170,23 @@ const onSubmit = async (event: FormSubmitEvent) => {
     if (!event.valid || isLoading.value) return
 
     isLoading.value = true
-    const payload: IncomeCreate = {
+    const payload: IncomeForm = {
         ...event.values,
         date: date.value.toDateString(),
-    } as IncomeCreate
+    } as IncomeForm
     try {
         if (updateMode) {
-            // await incomeStore.updateIncome(payload)
+            await incomeStore.updateIncome(data.id, payload)
         } else {
             await incomeStore.addIncome(payload)
         }
-        dialogRef?.value.close()
+        close()
     } finally {
         isLoading.value = false
     }
 }
-</script>
 
-<style lang="scss" scoped>
-.income-form {
-    height: 100%;
-    .form {
-        height: 100%;
-    }
+function close() {
+    dialogRef?.value.close()
 }
-</style>
+</script>

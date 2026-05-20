@@ -49,7 +49,7 @@ app.use(PrimeVue, {
                 style: 'background-color: rgba(0, 0, 0, 0.5);',
             },
             root: {
-                style: { width: '25vw' },
+                style: { width: '50vw' },
             },
         },
     },

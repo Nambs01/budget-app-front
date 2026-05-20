@@ -23,7 +23,7 @@
                     <div class="btn-container">
                         <ButtonCustomer
                             :label="`Ajouter un ${type === 'income' ? 'revenu' : 'dépense'}`"
-                            :onClick="() => console.log('click')"
+                            :onClick="openForm"
                         />
                     </div>
                 </div>
@@ -76,6 +76,7 @@
                                         variant="text"
                                         rounded
                                         aria-label="Star"
+                                        :onClick="() => openForm(slotProps.data)"
                                     />
                                     <Button
                                         icon="fa-solid fa-trash-can"
@@ -113,19 +114,19 @@ defineProps({
     },
     columns: {
         type: Array<TableColumn>,
-        requered: true,
+        required: true,
     },
     data: {
         type: Array,
-        requered: true,
-    },
-    updateAction: {
-        type: Function,
-        requered: false,
+        required: true,
     },
     removeAction: {
         type: Function,
-        requered: false,
+        required: false,
+    },
+    openForm: {
+        type: Function,
+        required: true,
     },
 })
 </script>

@@ -1,0 +1,194 @@
+.finance-dialog {
+    &.p-dialog {
+        border-radius: 16px;
+        overflow: hidden;
+        border: 1px solid #e2e8f0;
+        box-shadow:
+            0 0 0 1px rgba(0, 0, 0, 0.03),
+            0 8px 16px -4px rgba(0, 0, 0, 0.08),
+            0 24px 48px -8px rgba(0, 0, 0, 0.1);
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       Header
+    ═══════════════════════════════════════════════════════ */
+    .p-dialog-header {
+        background: #ffffff;
+        border-bottom: 1px solid #f1f5f9;
+        position: relative;
+
+        &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--primary-color);
+            border-radius: 0;
+        }
+    }
+
+    .p-dialog-header-content {
+        display: flex;
+        align-items: center;
+        gap: 0.875rem;
+        padding: 1.25rem 1.5rem 1rem;
+        flex: 1;
+
+        &::before {
+            content: attr(data-icon);
+            display: none;
+        }
+    }
+
+    .dialog-icon {
+        width: 2.25rem;
+        height: 2.25rem;
+        border-radius: 10px;
+        background: var(--primary-color-background);
+        color: var(--primary-color);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        font-size: 1rem;
+    }
+
+    .dialog-title-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.1rem;
+        flex: 1;
+    }
+
+    .p-dialog-title {
+        font-size: 0.975rem;
+        font-weight: 700;
+        color: #0f172a;
+        letter-spacing: -0.01em;
+        line-height: 1.3;
+    }
+
+    .dialog-subtitle {
+        font-size: 0.775rem;
+        color: var(--subtitle-color);
+        font-weight: 400;
+    }
+
+    .p-dialog-header-actions {
+        padding-right: 1rem;
+        padding-top: 0.5rem;
+        align-self: flex-start;
+    }
+
+    .p-dialog-close-button {
+        width: 1.75rem !important;
+        height: 1.75rem !important;
+        border-radius: 8px !important;
+        background: transparent !important;
+        border: none !important;
+        color: #94a3b8 !important;
+        transition:
+            background 0.15s,
+            color 0.15s !important;
+
+        &:hover {
+            background: #f1f5f9 !important;
+            color: #475569 !important;
+        }
+
+        .p-icon {
+            width: 0.85rem;
+            height: 0.85rem;
+        }
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       Content
+    ═══════════════════════════════════════════════════════ */
+    .p-dialog-content {
+        padding: 0 1.5rem;
+        background: #ffffff;
+        overflow-y: auto;
+        max-height: 68vh;
+
+        &::-webkit-scrollbar {
+            width: 3px;
+        }
+
+        &::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background: #e2e8f0;
+            border-radius: 99px;
+
+            &:hover {
+                background: var(--primary-color);
+            }
+        }
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       Footer
+    ═══════════════════════════════════════════════════════ */
+    .p-dialog-footer {
+        padding: 0.875rem 1.5rem 1.25rem;
+        background: #f8fafc;
+        border-top: 1px solid #f1f5f9;
+        display: flex;
+        justify-content: flex-end;
+        gap: 0.5rem;
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       Inputs focus
+    ═══════════════════════════════════════════════════════ */
+    .p-inputtext:focus,
+    .p-inputnumber-input:focus,
+    .p-textarea:focus {
+        border-color: var(--primary-color) !important;
+        box-shadow: 0 0 0 3px var(--primary-color-background) !important;
+    }
+
+    .p-select:not(.p-disabled).p-focus,
+    .p-datepicker:not(.p-disabled).p-focus {
+        border-color: var(--primary-color) !important;
+        box-shadow: 0 0 0 3px var(--primary-color-background) !important;
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       Boutons
+    ═══════════════════════════════════════════════════════ */
+    .p-button {
+        &:not(.p-button-outlined):not(.p-button-text):not([data-pc-severity='secondary']):not(
+                [data-pc-severity='danger']
+            ) {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+
+            &:hover {
+                background: color-mix(in srgb, var(--primary-color) 85%, black);
+                border-color: color-mix(in srgb, var(--primary-color) 85%, black);
+            }
+        }
+    }
+
+    .p-button-outlined {
+        color: var(--primary-color) !important;
+        border-color: var(--primary-color) !important;
+
+        &:hover {
+            background: var(--primary-color-background) !important;
+        }
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       Helpers
+    ═══════════════════════════════════════════════════════ */
+    .w-full {
+        width: 100%;
+    }
+}

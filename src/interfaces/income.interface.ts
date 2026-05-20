@@ -1,6 +1,4 @@
-import type { IncomeCategory } from '@/enums/income.enum'
-
-export interface IncomeCreate {
+export interface IncomeForm {
     title: string
     source: string
     category: string
@@ -8,7 +6,7 @@ export interface IncomeCreate {
     date: string
 }
 
-export interface Income extends IncomeCreate {
+export interface Income extends IncomeForm {
     id: string
     createdAt: string
     updatedAt: string
