@@ -33,6 +33,7 @@
                     id="budget-amount"
                     placeholder="0"
                     :min="0"
+                    :max="maxAmount"
                     :useGrouping="true"
                     currency="MGA"
                     locale="fr-MG"
@@ -129,8 +130,8 @@
 
         <!-- Footer -->
         <div class="form-footer">
-            <Button type="button" label="Annuler" text severity="secondary" @click="cancel" />
-            <Button type="submit" label="Enregistrer" icon="pi pi-check" />
+            <Button type="button" label="Annuler" text severity="secondary" @click="close" />
+            <Button type="submit" label="Enregistrer" icon="pi pi-check" :loading="isLoading" />
         </div>
     </Form>
 </template>
@@ -149,16 +150,23 @@ import type { DynamicDialogInstance } from 'primevue/dynamicdialogoptions'
 import {
     BudgetCategory,
     BudgetCategoryLabels,
-    type BudgetFormData,
+    type BudgetForm,
     type BudgetOption,
 } from '@/interfaces/budget.interface'
 import { useToastService } from '@/composables/useToastService'
+import { useAuthStore } from '@/stores/auth.store'
+import { useBudgetStore } from '@/stores/budget.store'
+import { is } from 'zod/locales'
 
 const toast = useToastService()
+const authStore = useAuthStore()
+const budgetStore = useBudgetStore()
+
+const isLoading = ref(false)
 
 // ── Zod schema ───────────────────────────────────────────
 const schema = z.object({
-    mounth: z.string().min(1, 'Le mois est requis.'),
+    mounth: z.date().min(1, 'Le mois est requis.'),
     amount: z.number().min(1, 'Le montant doit être supérieur à 0.'),
 })
 
@@ -183,6 +191,7 @@ const options = ref<BudgetOption[]>([])
 
 // Montant courant du champ Form (pour la barre d'allocation)
 const currentAmount = ref(0)
+const maxAmount = computed(() => authStore.currentUser?.amount)
 
 const availableAmount = computed(
     () => currentAmount.value - options.value.reduce((sum, o) => sum + (o.amount ?? 0), 0),
@@ -207,19 +216,31 @@ const fmt = (n: number) => new Intl.NumberFormat('fr-MG').format(n)
 
 // ── DynamicDialog ────────────────────────────────────────
 const dialogRef = inject<Ref<DynamicDialogInstance>>('dialogRef')
+const updateMode = dialogRef?.value.data ? true : false
 
-function onSubmit({ valid, values }: { valid: boolean; values: Record<string, unknown> }) {
+async function onSubmit({ valid, values }: { valid: boolean; values: Record<string, unknown> }) {
     if (!valid) return
 
-    const payload: BudgetFormData = {
-        mounth: values.mounth as string,
-        amount: values.amount as number,
-        options: options.value.length ? [...options.value] : undefined,
+    isLoading.value = true
+    try {
+        const payload: BudgetForm = {
+            mounth: values.mounth as Date,
+            amount: values.amount as number,
+            options: options.value.length ? [...options.value] : undefined,
+        }
+
+        if (updateMode) {
+            // await budgetStore.updateBudget(data.id, payload)
+        } else {
+            await budgetStore.addBudget(payload)
+        }
+        close()
+    } finally {
+        isLoading.value = false
     }
-    dialogRef?.value.close({ data: payload })
 }
 
-function cancel() {
+function close() {
     dialogRef?.value.close()
 }
 </script>

@@ -1,6 +1,6 @@
 import BudgetForm from '@/components/budget/BudgetForm.vue'
 import IncomeForm from '@/components/income/IncomeForm.vue'
-import type { BudgetFormData } from '@/interfaces/budget.interface'
+import type { Budget } from '@/interfaces/budget.interface'
 import type { Income } from '@/interfaces/income.interface'
 import { useDialog } from 'primevue/usedialog'
 import { h, type Component } from 'vue'
@@ -27,11 +27,7 @@ function makeHeader({ icon, title, subtitle }: DialogHeader) {
 export function useDialogService() {
     const dialog = useDialog()
 
-    function openDialog(
-        component: Component,
-        header: DialogHeader,
-        data?: Income | BudgetFormData,
-    ) {
+    function openDialog(component: Component, header: DialogHeader, data?: Income | Budget) {
         dialog.open(component, {
             props: {
                 modal: true,
@@ -46,7 +42,7 @@ export function useDialogService() {
         })
     }
 
-    function openBudgetForm(data?: BudgetFormData) {
+    function openBudgetForm(data?: Budget) {
         const header: DialogHeader = {
             icon: 'pi pi-wallet',
             title: data ? 'Modifier le budget' : 'Nouveau budget',

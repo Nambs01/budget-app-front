@@ -6,8 +6,15 @@ export type BudgetCategory = FinanceCategory
 export const BudgetCategoryLabels = FinanceCategoryLabels
 export type BudgetCategoryLabels = typeof FinanceCategoryLabels
 
-export interface BudgetFormData {
+export interface Budget {
+    id: string
     mounth: string
+    amount: number
+    options: BudgetOption[]
+}
+
+export interface BudgetForm {
+    mounth: Date
     amount: number
     options?: BudgetOption[]
 }
