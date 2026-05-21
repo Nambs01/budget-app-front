@@ -12,13 +12,18 @@
             }"
         />
         <div class="container">
-            <BudgetDashboard :totalBudget="100000" :totalSpent="70000" />
-            <template v-if="budget.categoryBudgets">
-                <BudgetCategory
-                    :budget="budget"
-                    :expenses-by-category="expensesByCategory"
-                    :category-labels="categoryLabels"
-                />
+            <template v-if="budgetStore.budget">
+                <BudgetDashboard :totalBudget="100000" :totalSpent="70000" />
+                <template v-if="budget.categoryBudgets">
+                    <BudgetCategory
+                        :budget="budget"
+                        :expenses-by-category="expensesByCategory"
+                        :category-labels="categoryLabels"
+                    />
+                </template>
+            </template>
+            <template v-else>
+                <BudgetNone />
             </template>
         </div>
     </div>
@@ -26,10 +31,25 @@
 
 <script setup lang="ts">
 import BudgetDashboard from '@/components/budget/BudgetDashboard.vue'
+import BudgetNone from '@/components/budget/BudgetNone.vue'
 import { useDialogService } from '@/composables/useDialogService'
+import { useAuthStore } from '@/stores/auth.store'
+import { useBudgetStore } from '@/stores/budget.store'
+import { watch } from 'vue'
+
+const budgetStore = useBudgetStore()
+const authStore = useAuthStore()
+
+watch(
+    () => authStore.month,
+    () => {
+        budgetStore.fetchBudgetOfMonth()
+    },
+    { immediate: true },
+)
 
 const dialogService = useDialogService()
-const showConfigBudget = () => dialogService.openBudgetForm()
+const showConfigBudget = () => dialogService.openBudgetForm(budgetStore.budget)
 
 const budget = {
     categoryBudgets: {

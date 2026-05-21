@@ -11,6 +11,7 @@
             <div class="form-group">
                 <label for="budget-month">Mois</label>
                 <DatePicker
+                    v-model="authStore.month"
                     name="month"
                     id="budget-month"
                     view="month"
@@ -19,6 +20,7 @@
                     :showIcon="true"
                     class="w-full"
                     :invalid="$form.month?.invalid"
+                    readonly
                 />
                 <span class="form-error" v-if="$form.month?.invalid">
                     {{ $form.month.error?.message }}
@@ -137,7 +139,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, type Ref } from 'vue'
+import { ref, computed, type Ref, onMounted } from 'vue'
 import { inject } from 'vue'
 import { z } from 'zod'
 import { zodResolver } from '@primevue/forms/resolvers/zod'
@@ -150,13 +152,13 @@ import type { DynamicDialogInstance } from 'primevue/dynamicdialogoptions'
 import {
     BudgetCategory,
     BudgetCategoryLabels,
+    type Budget,
     type BudgetForm,
     type BudgetOption,
 } from '@/interfaces/budget.interface'
 import { useToastService } from '@/composables/useToastService'
 import { useAuthStore } from '@/stores/auth.store'
 import { useBudgetStore } from '@/stores/budget.store'
-import { is } from 'zod/locales'
 
 const toast = useToastService()
 const authStore = useAuthStore()
@@ -166,13 +168,30 @@ const isLoading = ref(false)
 
 // ── Zod schema ───────────────────────────────────────────
 const schema = z.object({
-    month: z.date().min(1, 'Le mois est requis.'),
     amount: z.number().min(1, 'Le montant doit être supérieur à 0.'),
 })
 
 const resolver = zodResolver(schema)
 
-const initialValues = { month: '', amount: 0 }
+// ── DynamicDialog ────────────────────────────────────────
+const dialogRef = inject<Ref<DynamicDialogInstance>>('dialogRef')
+const data = dialogRef?.value.data as Budget | undefined
+const updateMode = dialogRef?.value.data ? true : false
+
+onMounted(() => {
+    if (updateMode) {
+        const data = dialogRef?.value.data as BudgetForm
+        currentAmount.value = data.amount
+        options.value = data.options ? [...data.options] : []
+    }
+})
+const initialValues = computed(() => {
+    if (updateMode) {
+        const data = dialogRef?.value.data as BudgetForm
+        return { month: data.month, amount: data.amount }
+    }
+    return { month: '', amount: 0 }
+})
 
 // ── Options select ───────────────────────────────────────
 const optionsCategory = Object.values(BudgetCategory).map((value) => ({
@@ -214,23 +233,19 @@ function removeOption(i: number) {
 
 const fmt = (n: number) => new Intl.NumberFormat('fr-MG').format(n)
 
-// ── DynamicDialog ────────────────────────────────────────
-const dialogRef = inject<Ref<DynamicDialogInstance>>('dialogRef')
-const updateMode = dialogRef?.value.data ? true : false
-
 async function onSubmit({ valid, values }: { valid: boolean; values: Record<string, unknown> }) {
     if (!valid) return
 
     isLoading.value = true
     try {
         const payload: BudgetForm = {
-            month: values.month as Date,
+            month: authStore.month,
             amount: values.amount as number,
             options: options.value.length ? [...options.value] : undefined,
         }
 
-        if (updateMode) {
-            // await budgetStore.updateBudget(data.id, payload)
+        if (updateMode && data) {
+            await budgetStore.updateBudget(data.id, payload)
         } else {
             await budgetStore.addBudget(payload)
         }

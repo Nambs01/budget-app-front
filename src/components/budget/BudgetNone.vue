@@ -14,7 +14,7 @@ const showConfigBudget = () => {
         <Card class="card-budget">
             <template #content>
                 <i class="pi pi-wallet"></i>
-                <h2>Aucun budget défini</h2>
+                <h2>Aucun budget défini ce mois</h2>
                 <p>Créez votre premier budget pour commencer à suivre vos dépenses</p>
                 <div class="btn-container">
                     <ButtonCustomer

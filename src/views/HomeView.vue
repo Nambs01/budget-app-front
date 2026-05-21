@@ -33,9 +33,11 @@
                         </RouterLink>
                     </template>
                 </div>
-                <!-- <div class="month-navigator"> -->
                 <MonthNavigator />
-                <!-- </div> -->
+                <div class="amount-available">
+                    <span class="label">Solde :</span>
+                    <span class="value">{{ formatAriary(currentUser.amount) }}</span>
+                </div>
             </div>
         </div>
         <div class="body">
@@ -50,10 +52,18 @@ import { useRoute } from 'vue-router'
 import Logo from '@/components/Logo.vue'
 import { useAuthStore } from '@/stores/auth.store'
 import MonthNavigator from '@/components/MonthNavigator.vue'
+import { formatAriary } from '@/utils/currency.util'
 
 const currentUser = useAuthStore().currentUser
 const route = useRoute()
 const activedRoutePath = ref('/budget')
+
+// watch(
+//     () => useAuthStore().month,
+//     () => {
+//         console.log('View: Change Month')
+//     },
+// )
 
 const menus = [
     // {
@@ -128,8 +138,9 @@ watch(
         }
 
         .navigation-bar {
-            display: flex;
-            justify-content: space-between;
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: center;
 
             .menu-bar {
                 display: flex;
@@ -157,6 +168,29 @@ watch(
                         color: #fff;
                         background-color: var(--primary-color);
                     }
+                }
+            }
+            .amount-available {
+                justify-self: end;
+                background-color: #f0f9ff;
+                padding: 6px 14px;
+                border-radius: 30px;
+                font-weight: bold;
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+                transition: all 0.2s ease;
+
+                .value {
+                    font-size: 1.2rem;
+                    font-family: monospace;
+                    letter-spacing: 0.5px;
+                    color: #1e6f3f;
+                }
+
+                .label {
+                    margin-right: 6px;
+                    font-size: 0.8rem;
+                    color: #2c7a4a;
+                    text-transform: uppercase;
                 }
             }
         }

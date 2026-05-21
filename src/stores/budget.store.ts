@@ -1,18 +1,30 @@
-import { ref } from 'vue'
-import { defineStore } from 'pinia'
+import { ref, watch } from 'vue'
+import { defineStore, storeToRefs } from 'pinia'
 import { useToastService } from '@/composables/useToastService'
 import { BudgetService } from '@/services/budget.service'
 import type { Budget, BudgetForm } from '@/interfaces/budget.interface'
+import { useAuthStore } from './auth.store'
 
 export const useBudgetStore = defineStore('budget', () => {
     const toast = useToastService()
     const budgetService = BudgetService.getInstance()
-    const budgetList = ref<Budget[]>([])
+    const budget = ref<Budget>()
+
+    const { month } = storeToRefs(useAuthStore())
+
+    const fetchBudgetOfMonth = async () => {
+        try {
+            const data = await budgetService.fetchBudgetOfMonth(month.value)
+            budget.value = data
+        } catch (error) {
+            console.error('Fetch budget of month failed:', error)
+        }
+    }
 
     const addBudget = async (data: BudgetForm) => {
         try {
             const response = await budgetService.create(data)
-            budgetList.value.unshift(response)
+            budget.value = response
             toast.success('Budget enregistré avec succès')
         } catch (error) {
             console.error('Add budget failed:', error)
@@ -22,17 +34,12 @@ export const useBudgetStore = defineStore('budget', () => {
     const updateBudget = async (id: string, data: BudgetForm) => {
         try {
             const response = await budgetService.update(id, data)
-            const index = budgetList.value.findIndex((budget) => budget.id === id)
-            if (index !== -1) {
-                budgetList.value[index] = response
-                toast.success('Budget mis à jour avec succès')
-            } else {
-                console.warn(`Budget with id ${id} not found in the list`)
-            }
+            budget.value = response
+            toast.success('Budget mis à jour avec succès')
         } catch (error) {
             console.error('Update budget failed:', error)
         }
     }
 
-    return { budgetList, addBudget, updateBudget }
+    return { budget, fetchBudgetOfMonth, addBudget, updateBudget }
 })

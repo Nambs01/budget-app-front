@@ -22,4 +22,11 @@ export class BudgetService {
         const response = await axiosInstance.patch<Budget>(`/budgets/${id}`, payload)
         return response.data
     }
+
+    public async fetchBudgetOfMonth(month: Date) {
+        const response = await axiosInstance.get<Budget | undefined>(
+            `/budgets?month=${month.toDateString()}`,
+        )
+        return response.data
+    }
 }
