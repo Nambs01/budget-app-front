@@ -15,13 +15,13 @@ const routes = [
         name: 'Home',
         component: HomeView,
         meta: { requiresAuth: true },
-        redirect: '/dashboard',
+        redirect: '/budget',
         children: [
-            {
-                path: '/dashboard',
-                name: 'Dashboard',
-                component: DashboardView,
-            },
+            // {
+            //     path: '/dashboard',
+            //     name: 'Dashboard',
+            //     component: DashboardView,
+            // },
             {
                 path: '/budget',
                 name: 'Budget',

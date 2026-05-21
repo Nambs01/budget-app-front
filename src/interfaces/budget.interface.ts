@@ -8,13 +8,13 @@ export type BudgetCategoryLabels = typeof FinanceCategoryLabels
 
 export interface Budget {
     id: string
-    mounth: string
+    month: string
     amount: number
     options: BudgetOption[]
 }
 
 export interface BudgetForm {
-    mounth: Date
+    month: Date
     amount: number
     options?: BudgetOption[]
 }

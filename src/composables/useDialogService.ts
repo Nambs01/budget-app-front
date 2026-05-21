@@ -46,7 +46,7 @@ export function useDialogService() {
         const header: DialogHeader = {
             icon: 'pi pi-wallet',
             title: data ? 'Modifier le budget' : 'Nouveau budget',
-            subtitle: data ? `Budget du mois de ${data.mounth}` : 'Définissez votre budget mensuel',
+            subtitle: data ? `Budget du mois de ${data.month}` : 'Définissez votre budget mensuel',
         }
         openDialog(BudgetForm, header, data)
     }

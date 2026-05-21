@@ -10,6 +10,7 @@ export const useAuthStore = defineStore('auth', () => {
 
     const authService = AuthService.getInstance()
     const currentUser = ref<User>()
+    const month = ref(new Date())
 
     const isAuthenticated = computed(() => !!currentUser.value)
 
@@ -54,5 +55,21 @@ export const useAuthStore = defineStore('auth', () => {
         if (currentUser.value) currentUser.value.amount = value
     }
 
-    return { currentUser, isAuthenticated, login, logout, register, fetchCurrentUser, updateAmount }
+    const updateMonth = (param: -1 | 1) => {
+        const d = new Date(month.value)
+        d.setMonth(d.getMonth() + param)
+        month.value = d
+    }
+
+    return {
+        currentUser,
+        month,
+        updateMonth,
+        isAuthenticated,
+        login,
+        logout,
+        register,
+        fetchCurrentUser,
+        updateAmount,
+    }
 })

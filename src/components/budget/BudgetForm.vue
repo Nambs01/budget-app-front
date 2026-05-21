@@ -11,17 +11,17 @@
             <div class="form-group">
                 <label for="budget-month">Mois</label>
                 <DatePicker
-                    name="mounth"
+                    name="month"
                     id="budget-month"
                     view="month"
                     dateFormat="MM yy"
                     placeholder="Sélectionner un mois"
                     :showIcon="true"
                     class="w-full"
-                    :invalid="$form.mounth?.invalid"
+                    :invalid="$form.month?.invalid"
                 />
-                <span class="form-error" v-if="$form.mounth?.invalid">
-                    {{ $form.mounth.error?.message }}
+                <span class="form-error" v-if="$form.month?.invalid">
+                    {{ $form.month.error?.message }}
                 </span>
             </div>
 
@@ -166,13 +166,13 @@ const isLoading = ref(false)
 
 // ── Zod schema ───────────────────────────────────────────
 const schema = z.object({
-    mounth: z.date().min(1, 'Le mois est requis.'),
+    month: z.date().min(1, 'Le mois est requis.'),
     amount: z.number().min(1, 'Le montant doit être supérieur à 0.'),
 })
 
 const resolver = zodResolver(schema)
 
-const initialValues = { mounth: '', amount: 0 }
+const initialValues = { month: '', amount: 0 }
 
 // ── Options select ───────────────────────────────────────
 const optionsCategory = Object.values(BudgetCategory).map((value) => ({
@@ -224,7 +224,7 @@ async function onSubmit({ valid, values }: { valid: boolean; values: Record<stri
     isLoading.value = true
     try {
         const payload: BudgetForm = {
-            mounth: values.mounth as Date,
+            month: values.month as Date,
             amount: values.amount as number,
             options: options.value.length ? [...options.value] : undefined,
         }

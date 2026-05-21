@@ -21,16 +21,21 @@
                     />
                 </div>
             </div>
-            <div class="menu-bar">
-                <template v-for="(menu, index) in menus" :key="index">
-                    <RouterLink
-                        :to="menu.path"
-                        :class="{ 'menu-item': true, active: activedRoutePath === menu.path }"
-                    >
-                        <i :class="menu.icon"></i>
-                        <span>{{ menu.label }}</span>
-                    </RouterLink>
-                </template>
+            <div class="navigation-bar">
+                <div class="menu-bar">
+                    <template v-for="(menu, index) in menus" :key="index">
+                        <RouterLink
+                            :to="menu.path"
+                            :class="{ 'menu-item': true, active: activedRoutePath === menu.path }"
+                        >
+                            <i :class="menu.icon"></i>
+                            <span>{{ menu.label }}</span>
+                        </RouterLink>
+                    </template>
+                </div>
+                <!-- <div class="month-navigator"> -->
+                <MonthNavigator />
+                <!-- </div> -->
             </div>
         </div>
         <div class="body">
@@ -41,20 +46,21 @@
 
 <script setup>
 import { watch, ref } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { useRoute } from 'vue-router'
 import Logo from '@/components/Logo.vue'
 import { useAuthStore } from '@/stores/auth.store'
+import MonthNavigator from '@/components/MonthNavigator.vue'
 
 const currentUser = useAuthStore().currentUser
 const route = useRoute()
-const activedRoutePath = ref('/dashboard')
+const activedRoutePath = ref('/budget')
 
 const menus = [
-    {
-        path: '/dashboard',
-        icon: 'pi pi-objects-column',
-        label: 'Tableau de bord',
-    },
+    // {
+    //     path: '/dashboard',
+    //     icon: 'pi pi-objects-column',
+    //     label: 'Tableau de bord',
+    // },
     {
         path: '/budget',
         icon: 'pi pi-wallet',
@@ -88,6 +94,7 @@ watch(
         box-shadow: 0px 1px 28px 5px rgba(0, 0, 0, 0.08);
         position: sticky;
         top: 0;
+        z-index: 10;
         & > div {
             padding: 1.5rem 10%;
         }
@@ -120,31 +127,36 @@ watch(
             }
         }
 
-        .menu-bar {
+        .navigation-bar {
             display: flex;
-            gap: 10px;
+            justify-content: space-between;
 
-            .menu-item {
-                cursor: pointer;
+            .menu-bar {
                 display: flex;
-                align-items: center;
                 gap: 10px;
-                padding: 8px 10px;
-                font-weight: bold;
-                font-size: 0.9rem;
-                border-radius: 8px;
-                text-decoration: none;
-                color: #000;
-                transition: background-color 0.3s ease;
 
-                &:hover {
-                    background-color: var(--primary-color-background);
-                    color: var(--primary-color);
-                }
+                .menu-item {
+                    cursor: pointer;
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                    padding: 8px 10px;
+                    font-weight: bold;
+                    font-size: 0.9rem;
+                    border-radius: 8px;
+                    text-decoration: none;
+                    color: #000;
+                    transition: background-color 0.3s ease;
 
-                &.active {
-                    color: #fff;
-                    background-color: var(--primary-color);
+                    &:hover {
+                        background-color: var(--primary-color-background);
+                        color: var(--primary-color);
+                    }
+
+                    &.active {
+                        color: #fff;
+                        background-color: var(--primary-color);
+                    }
                 }
             }
         }

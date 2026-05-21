@@ -53,6 +53,36 @@ app.use(PrimeVue, {
             },
         },
     },
+    locale: {
+        monthNames: [
+            'Janvier',
+            'Février',
+            'Mars',
+            'Avril',
+            'Mai',
+            'Juin',
+            'Juillet',
+            'Août',
+            'Septembre',
+            'Octobre',
+            'Novembre',
+            'Décembre',
+        ],
+        monthNamesShort: [
+            'Janv',
+            'Févr',
+            'Mars',
+            'Avr',
+            'Mai',
+            'Juin',
+            'Juil',
+            'Août',
+            'Sept',
+            'Oct',
+            'Nov',
+            'Déc',
+        ],
+    },
 })
 app.use(DialogService)
 app.use(ToastService)
