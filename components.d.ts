@@ -13,6 +13,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     AddIncome: typeof import('./src/components/income/AddIncome.vue')['default']
     AuthForm: typeof import('./src/components/AuthForm.vue')['default']
+    BudgetAllocation: typeof import('./src/components/budget/BudgetAllocation.vue')['default']
     BudgetCategory: typeof import('./src/components/budget/BudgetCategory.vue')['default']
     BudgetDashboard: typeof import('./src/components/budget/BudgetDashboard.vue')['default']
     BudgetForm: typeof import('./src/components/budget/BudgetForm.vue')['default']
@@ -25,6 +26,7 @@ declare module 'vue' {
     DataTable: typeof import('primevue/datatable')['default']
     DatePicker: typeof import('primevue/datepicker')['default']
     DynamicDialog: typeof import('primevue/dynamicdialog')['default']
+    ExpenseForm: typeof import('./src/components/expense/ExpenseForm.vue')['default']
     Form: typeof import('@primevue/forms/form')['default']
     HeaderPage: typeof import('./src/components/HeaderPage.vue')['default']
     IncomeForm: typeof import('./src/components/income/IncomeForm.vue')['default']
@@ -37,6 +39,7 @@ declare module 'vue' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Select: typeof import('primevue/select')['default']
+    StatsCards: typeof import('./src/components/StatsCards.vue')['default']
     Table: typeof import('./src/components/Table.vue')['default']
     Tag: typeof import('primevue/tag')['default']
     Textarea: typeof import('primevue/textarea')['default']
