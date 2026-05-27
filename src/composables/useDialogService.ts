@@ -1,6 +1,8 @@
 import BudgetForm from '@/components/budget/BudgetForm.vue'
+import ExpenseForm from '@/components/expense/ExpenseForm.vue'
 import IncomeForm from '@/components/income/IncomeForm.vue'
 import type { Budget } from '@/interfaces/budget.interface'
+import type { Expense } from '@/interfaces/expense.interface'
 import type { Income } from '@/interfaces/income.interface'
 import { useDialog } from 'primevue/usedialog'
 import { h, type Component } from 'vue'
@@ -60,5 +62,16 @@ export function useDialogService() {
         openDialog(IncomeForm, header, data)
     }
 
-    return { openBudgetForm, openIncomeForm }
+    function openExpenseForm(data?: Expense) {
+        const header: DialogHeader = {
+            icon: 'fa-solid fa-arrow-trend-up',
+            title: data ? 'Modifier une dépense' : 'Nouvelle dépense',
+            subtitle: data
+                ? `Modifiication d'une dépense`
+                : 'Enregistrez une nouvelle dépense avec sa catégorie et priorité',
+        }
+        openDialog(ExpenseForm, header, data)
+    }
+
+    return { openBudgetForm, openIncomeForm, openExpenseForm }
 }
