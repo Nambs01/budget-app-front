@@ -23,8 +23,8 @@ export class IncomeService {
         return response.data
     }
 
-    public async fetchIncomeList() {
-        const response = await axiosInstance.get<Income[]>('/incomes')
+    public async fetchIncomesOfMonth(month: Date) {
+        const response = await axiosInstance.get<Income[]>(`/incomes?month=${month.toDateString()}`)
         return response.data
     }
 }
