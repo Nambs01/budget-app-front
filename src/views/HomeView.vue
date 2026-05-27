@@ -58,13 +58,6 @@ const currentUser = useAuthStore().currentUser
 const route = useRoute()
 const activedRoutePath = ref('/budget')
 
-// watch(
-//     () => useAuthStore().month,
-//     () => {
-//         console.log('View: Change Month')
-//     },
-// )
-
 const menus = [
     // {
     //     path: '/dashboard',
