@@ -23,7 +23,7 @@
                     <div class="btn-container">
                         <ButtonCustomer
                             :label="`Ajouter un ${type === 'income' ? 'revenu' : 'dépense'}`"
-                            :onClick="openForm"
+                            :onClick="() => openForm()"
                         />
                     </div>
                 </div>
@@ -38,7 +38,7 @@
                         :sortable="col.field !== 'actions'"
                     >
                         <template #header>
-                            <div class="col-header">
+                            <div :class="{ 'col-header': true, center: col.field == 'allocated' }">
                                 <span>{{ col.header }}</span>
                             </div>
                         </template>
@@ -50,15 +50,44 @@
                             <template v-else-if="col.field === 'category'">
                                 <Button
                                     :label="
-                                        IncomeCategoryLabels[
-                                            slotProps.data
-                                                .category as keyof typeof IncomeCategoryLabels
-                                        ]
+                                        type === 'income'
+                                            ? IncomeCategoryLabels[
+                                                  slotProps.data
+                                                      .category as keyof typeof IncomeCategoryLabels
+                                              ]
+                                            : ExpenseCategoryLabels[
+                                                  slotProps.data
+                                                      .category as keyof typeof ExpenseCategoryLabels
+                                              ]
                                     "
                                     severity="primary"
                                     variant="outlined"
                                     size="small"
                                     rounded
+                                />
+                            </template>
+
+                            <template v-else-if="col.field === 'priority'">
+                                <Tag
+                                    :value="
+                                        ExpensePriorityLabels[
+                                            slotProps.data
+                                                .priority as keyof typeof ExpensePriorityLabels
+                                        ]
+                                    "
+                                    :severity="severityOfPriority(slotProps.data.priority)"
+                                    rounded
+                                />
+                            </template>
+
+                            <template v-else-if="col.field == 'allocated'">
+                                <i
+                                    class="pi allocation-status"
+                                    :class="
+                                        slotProps.data.allocated
+                                            ? 'pi-check-circle success-icon'
+                                            : 'pi-times-circle danger-icon'
+                                    "
                                 />
                             </template>
 
@@ -85,7 +114,6 @@
                                         rounded
                                         aria-label="Star"
                                     />
-                                    <!-- icon="pi pi-trash" -->
                                 </div>
                             </template>
                             <template v-else>
@@ -100,6 +128,7 @@
 </template>
 
 <script lang="ts" setup>
+import { ExpenseCategoryLabels, ExpensePriority, ExpensePriorityLabels } from '@/enums/expense.enum'
 import { IncomeCategoryLabels } from '@/enums/income.enum'
 import type { TableColumn } from '@/interfaces/table.inteface'
 import { formatAriary } from '@/utils/currency.util'
@@ -129,6 +158,19 @@ defineProps({
         required: true,
     },
 })
+
+const severityOfPriority = (priority: ExpensePriority) => {
+    switch (priority) {
+        case ExpensePriority.ESSENTIAL:
+            return 'danger'
+
+        case ExpensePriority.IMPORTANT:
+            return 'warn'
+
+        case ExpensePriority.OPTIONAL:
+            return 'info'
+    }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -171,6 +213,18 @@ defineProps({
         .action {
             display: flex;
             gap: 1rem;
+        }
+
+        .allocation-status {
+            font-size: 1.2rem;
+            margin-left: 4rem;
+            &.success-icon {
+                color: #16a34a;
+            }
+
+            &.danger-icon {
+                color: #dc2626;
+            }
         }
     }
 }
