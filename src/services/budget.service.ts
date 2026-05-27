@@ -1,5 +1,5 @@
 import axiosInstance from '@/api'
-import type { Budget, BudgetForm } from '@/interfaces/budget.interface'
+import type { Allocation, Budget, BudgetForm } from '@/interfaces/budget.interface'
 
 export class BudgetService {
     private static instance: BudgetService
@@ -26,6 +26,13 @@ export class BudgetService {
     public async fetchBudgetOfMonth(month: Date) {
         const response = await axiosInstance.get<Budget | undefined>(
             `/budgets?month=${month.toDateString()}`,
+        )
+        return response.data
+    }
+
+    public async fetchAllocationBudgetOfMonth(month: Date) {
+        const response = await axiosInstance.get<Allocation>(
+            `/budgets/allocation?month=${month.toDateString()}`,
         )
         return response.data
     }

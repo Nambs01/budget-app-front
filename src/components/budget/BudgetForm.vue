@@ -51,7 +51,7 @@
         </div>
 
         <!-- Répartition par catégorie -->
-        <div class="form-section">
+        <!-- <div class="form-section">
             <div class="form-section-header">
                 <div class="form-section-title">
                     Répartition par catégorie
@@ -82,9 +82,9 @@
                                 placeholder="Choisir…"
                                 class="w-full"
                             />
-                        </div>
-                        <!-- :defaultValue="optionsCategoryAvailable[0]?.value" -->
-                        <div class="form-group" style="margin-bottom: 0">
+                        </div> -->
+        <!-- :defaultValue="optionsCategoryAvailable[0]?.value" -->
+        <!-- <div class="form-group" style="margin-bottom: 0">
                             <label>Montant <span class="unit">Ar</span></label>
                             <InputNumber
                                 v-model="option.amount"
@@ -110,10 +110,10 @@
                         @click="removeOption(i)"
                     />
                 </div>
-            </TransitionGroup>
+            </TransitionGroup> -->
 
-            <!-- Barre d'allocation -->
-            <div class="form-progress" v-if="options.length > 0 && currentAmount > 0">
+        <!-- Barre d'allocation -->
+        <!-- <div class="form-progress" v-if="options.length > 0 && currentAmount > 0">
                 <div class="form-progress-info" :class="{ over: allocatedTotal > currentAmount }">
                     <span>Alloué</span>
                     <span>{{ fmt(allocatedTotal) }} / {{ fmt(currentAmount) }} Ar</span>
@@ -128,7 +128,7 @@
                     />
                 </div>
             </div>
-        </div>
+        </div> -->
 
         <!-- Footer -->
         <div class="form-footer">
@@ -149,18 +149,11 @@ import InputNumber from 'primevue/inputnumber'
 import DatePicker from 'primevue/datepicker'
 import Select from 'primevue/select'
 import type { DynamicDialogInstance } from 'primevue/dynamicdialogoptions'
-import {
-    BudgetCategory,
-    BudgetCategoryLabels,
-    type Budget,
-    type BudgetForm,
-    type BudgetOption,
-} from '@/interfaces/budget.interface'
-import { useToastService } from '@/composables/useToastService'
+import { type Budget, type BudgetForm, type BudgetOption } from '@/interfaces/budget.interface'
 import { useAuthStore } from '@/stores/auth.store'
 import { useBudgetStore } from '@/stores/budget.store'
 
-const toast = useToastService()
+// const toast = useToastService()
 const authStore = useAuthStore()
 const budgetStore = useBudgetStore()
 
@@ -182,7 +175,7 @@ onMounted(() => {
     if (updateMode) {
         const data = dialogRef?.value.data as BudgetForm
         currentAmount.value = data.amount
-        options.value = data.options ? [...data.options] : []
+        // options.value = data.options ? [...data.options] : []
     }
 })
 const initialValues = computed(() => {
@@ -194,44 +187,44 @@ const initialValues = computed(() => {
 })
 
 // ── Options select ───────────────────────────────────────
-const optionsCategory = Object.values(BudgetCategory).map((value) => ({
-    label: BudgetCategoryLabels[value],
-    value,
-}))
+// const optionsCategory = Object.values(BudgetCategory).map((value) => ({
+//     label: BudgetCategoryLabels[value],
+//     value,
+// }))
 
-function getOptionsCategoryAvailable(index: number) {
-    return optionsCategory.filter(
-        (opt) => !options.value.some((o, i) => i !== index && o.category === opt.value),
-    )
-}
+// function getOptionsCategoryAvailable(index: number) {
+//     return optionsCategory.filter(
+//         (opt) => !options.value.some((o, i) => i !== index && o.category === opt.value),
+//     )
+// }
 
 // ── Dynamic options (hors Form pour le tableau) ──────────
-const options = ref<BudgetOption[]>([])
+// const options = ref<BudgetOption[]>([])
 
 // Montant courant du champ Form (pour la barre d'allocation)
 const currentAmount = ref(0)
 const maxAmount = computed(() => authStore.currentUser?.amount)
 
-const availableAmount = computed(
-    () => currentAmount.value - options.value.reduce((sum, o) => sum + (o.amount ?? 0), 0),
-)
+// const availableAmount = computed(
+//     () => currentAmount.value - options.value.reduce((sum, o) => sum + (o.amount ?? 0), 0),
+// )
 
-const allocatedTotal = computed(() => options.value.reduce((s, o) => s + (o.amount || 0), 0))
+// const allocatedTotal = computed(() => options.value.reduce((s, o) => s + (o.amount || 0), 0))
 
-function addOption() {
-    if (options.value.length >= optionsCategory.length) {
-        toast.warning('Toutes les catégories ont déjà été ajoutées.')
-        return
-    }
+// function addOption() {
+//     if (options.value.length >= optionsCategory.length) {
+//         toast.warning('Toutes les catégories ont déjà été ajoutées.')
+//         return
+//     }
 
-    const defaultValue = getOptionsCategoryAvailable(options.value.length)[0]?.value
-    options.value.push({ category: defaultValue ?? BudgetCategory.OTHER, amount: 0 })
-}
-function removeOption(i: number) {
-    options.value.splice(i, 1)
-}
+//     const defaultValue = getOptionsCategoryAvailable(options.value.length)[0]?.value
+//     options.value.push({ category: defaultValue ?? BudgetCategory.OTHER, amount: 0 })
+// }
+// function removeOption(i: number) {
+//     options.value.splice(i, 1)
+// }
 
-const fmt = (n: number) => new Intl.NumberFormat('fr-MG').format(n)
+// const fmt = (n: number) => new Intl.NumberFormat('fr-MG').format(n)
 
 async function onSubmit({ valid, values }: { valid: boolean; values: Record<string, unknown> }) {
     if (!valid) return
@@ -241,7 +234,7 @@ async function onSubmit({ valid, values }: { valid: boolean; values: Record<stri
         const payload: BudgetForm = {
             month: authStore.month,
             amount: values.amount as number,
-            options: options.value.length ? [...options.value] : undefined,
+            // options: options.value.length ? [...options.value] : undefined,
         }
 
         if (updateMode && data) {
